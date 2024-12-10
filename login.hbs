@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login1.css">
+    <link rel="stylesheet" href="login2.css">
+</head>
+<body>
+    <div class="login-wrapper">
+        <!-- Left Section -->
+        <div class="login-left">
+            <div class="logo">
+                <img src="images/p2.png" alt="Logo" />
+            </div>
+            <h2>Welcome back!</h2>
+            
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+    
+                    </div>
+                </div>
+                <div class="form-group">
+                   
+                    <a href="/forgot-password" class="forgot-link">Forgot your password?</a>
+                </div>
+                <button type="submit">Log In</button>
+               
+                <p class="register-link">Don’t have an account? <a href="/register">Register here</a></p>
+            </form>
+        </div>
+
+        <!-- Right Section -->
+        <div class="login-right"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

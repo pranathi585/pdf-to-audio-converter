@@ -1,0 +1,36 @@
+<?php
+// Directory where the uploaded PDFs are stored
+$directory = 'uploads/';
+
+// Get all PDF files in the directory
+$pdfs = array_filter(scandir($directory), function ($file) use ($directory) {
+    return is_file($directory . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'pdf';
+});
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View PDFs</title>
+    <link rel="stylesheet" href="view.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Uploaded PDFs</h1>
+        <div class="pdf-list">
+            <?php if (!empty($pdfs)): ?>
+                <?php foreach ($pdfs as $pdf): ?>
+                    <div class="pdf-item">
+                        <p><?php echo htmlspecialchars($pdf); ?></p>
+                        <a href="<?php echo $directory . htmlspecialchars($pdf); ?>" download class="download-btn">Download</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No PDFs uploaded yet.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</body>
+</html>

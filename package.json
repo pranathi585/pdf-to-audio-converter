@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^5.6.0",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "child_process": "^1.0.2",
+    "express": "^4.21.1",
+    "gtts": "^0.2.1",
+    "hbs": "^4.2.0",
+    "mongoose": "^8.8.2",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "sass": "^1.81.0"
+  },
+  "php": {
+    "workbench.editor.empty.hint": "hidden",
+    "database-client.autoSync": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "php.executablePath": ""
+  }
+}

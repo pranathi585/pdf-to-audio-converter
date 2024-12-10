@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Audio Converter</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <header>
+        <button onclick="toggleDarkMode()" class="btn">Toggle Dark Mode</button>
+
+        <div class="container">
+            <h1>PDF to Audio Converter</h1>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li>
+                        <a href="/profile" class="profile-link">
+                            <img src="default-profile.png" alt="User Profile" class="profile-pic">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+          <h1>Convert Your PDF to Audio</h1>
+    <form action="/convert" method="post" enctype="multipart/form-data">
+      <input type="file" name="pdf" accept=".pdf" required>
+      <button type="submit">Convert</button>
+    </main>
+    <script>
+        const uploadForm = document.getElementById("upload-form");
+        const audioSection = document.getElementById("audio-section");
+        const audioPlayer = document.getElementById("audio-player");
+        const downloadBtn = document.getElementById("download-btn");
+
+        uploadForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(uploadForm);
+
+            try {
+                const response = await fetch("uploads", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) throw new Error("Upload failed");
+
+                const { audioPath } = await response.json();
+                audioPlayer.src = audioPath;
+                downloadBtn.onclick = () => {
+                    const link = document.createElement("a");
+                    link.href = audioPath;
+                    link.download = audioPath.split("/login").pop();
+                    link.click();
+                };
+
+                audioSection.hidden = false;
+            } catch (error) {
+                console.error("Error uploading file:", error);
+                alert("Error uploading file. Please try again.");
+            }
+        });
+        // Dark Mode Toggle
+        const toggleDarkMode = () => {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        };
+
+        // Load Dark Mode and Profile Picture on Page Load
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+
+            const userProfilePic = localStorage.getItem('userProfilePic');
+            const profilePicElement = document.querySelector('.profile-pic');
+            if (userProfilePic) {
+                profilePicElement.src = userProfilePic;
+            }
+        };
+     
+        
+
+    
+
+    </script>
+</body>
+</html>

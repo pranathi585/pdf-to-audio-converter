@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>User Profile</h1>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="/login" class="nav-link">Home</a></li>
+                    <li><a href="#settings" class="nav-link">Settings</a></li>
+                    <li><a href="/" class="nav-link">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="user-profile" class="profile">
+            <h2>Welcome, <span id="user-name">User Name</span></h2>
+            <div class="profile-info">
+                <img id="profile-pic" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzCb4DonWw5pT1-A3Su9HzG6TTN4nMOmj7tg&s" alt="Profile Picture" class="profile-pic">
+                <div class="user-details">
+                    <p><b>Name:</b> <span id="name">[User Name]</span></p>
+                    <p><b>Email:</b> <span id="email">[User Email]</span></p>
+                </div>
+            </div>
+            <button class="btn btn-edit" id="edit-profile-btn">Edit Profile</button>
+        </section>
+    </main>
+
+    <!-- Modal for Editing Profile -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <div class="modal-header">Edit Profile</div>
+            <label for="update-name">Name:</label>
+            <input type="text" id="update-name">
+            <label for="update-email">Email:</label>
+            <input type="email" id="update-email">
+            <label for="profile-upload" class="file-label">Upload Profile Picture:</label>
+            <input type="file" id="profile-upload">
+            <div class="modal-footer">
+                <button class="btn btn-save" id="save-btn">Save</button>
+                <button class="btn btn-cancel" id="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+    // JavaScript for Modal and Profile Update
+    const editModal = document.getElementById('edit-modal');
+    const editBtn = document.getElementById('edit-profile-btn');
+    const closeModal = document.getElementById('modal-close');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    // Open Modal
+    editBtn.addEventListener('click', () => {
+        const userData = JSON.parse(localStorage.getItem('userData')) || {};
+        document.getElementById('update-name').value = userData.name || '';
+        document.getElementById('update-email').value = userData.email || '';
+        editModal.style.display = 'flex';
+    });
+
+    // Close Modal
+    closeModal.addEventListener('click', () => {
+        editModal.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        editModal.style.display = 'none';
+    });
+
+    // Save Changes
+    saveBtn.addEventListener('click', () => {
+        const updatedName = document.getElementById('update-name').value.trim();
+        const updatedEmail = document.getElementById('update-email').value.trim();
+        const fileInput = document.getElementById('profile-upload');
+
+        if (updatedName && updatedEmail) {
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            userData.name = updatedName;
+            userData.email = updatedEmail;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    userData.profilePic = e.target.result;
+                    document.getElementById('profile-pic').src = userData.profilePic;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    // Update profile picture in localStorage for home page
+                    localStorage.setItem('userProfilePic', userData.profilePic);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                localStorage.setItem('userData', JSON.stringify(userData));
+            }
+
+            document.getElementById('name').innerText = updatedName;
+            document.getElementById('email').innerText = updatedEmail;
+            alert('Profile updated successfully!');
+            editModal.style.display = 'none';
+        } else {
+            alert('Please fill in all fields.');
+        }
+    });
+</script>
+
+
+</body>
+</html>
